@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,28 +41,37 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.setFont(new Font("serif", Font.BOLD,20));
         g.drawString("Score :" + score ,550,30);
 
-        if(ballposY >= 570){
-            play = false ;
-            ballXdir = 0;
-            ballYdir = 0;
+        if(ballposY >= 570) {
+            if (!scoreSaved) {
+                ScoreHistory.saveScore(score);
+                scoreSaved = true;
+            }
+                play = false;
+                ballXdir = 0;
+                ballYdir = 0;
 
-            g.setColor(Color.CYAN);
-            g.setFont(new Font("Arial" , Font.BOLD , 40));
-            g.drawString("GAME OVER" , 200 , 300);
-            g.drawString("Score :" + score, 230 , 335);
-            g.setFont(new Font("Arial" , Font.BOLD , 27));
-            g.drawString("Press ENTER to restart ", 175 , 370);
+
+                g.setColor(Color.CYAN);
+                g.setFont(new Font("Arial", Font.BOLD, 40));
+                g.drawString("GAME OVER", 200, 300);
+                g.drawString("Score :" + score, 230, 335);
+                g.setFont(new Font("Arial", Font.BOLD, 27));
+                g.drawString("Press ENTER to restart ", 175, 370);
 
         }
-        if(score >=21) {
-            play = true;
-            delay = -5;
-            ballposX = 120;
-            ballposY = 350;
-            ballXdir = -1;
-            ballYdir = -2;
-            playerX = 320;
-            mapGenerator = new MapGenerator(4,7);
+        if(totalBrick <=0) {
+            if (!scoreSaved) {
+
+                ScoreHistory.saveScore(score);
+                scoreSaved = true;
+            }
+                play = false;
+                g.setColor(Color.CYAN);
+                g.setFont(new Font("Arial", Font.BOLD, 40));
+                g.drawString("U WON", 200, 300);
+                g.drawString("Score :" + score, 230, 335);
+                g.setFont(new Font("Arial", Font.BOLD, 27));
+                g.drawString("Press ENTER to restart ", 175, 370);
         }
 
     }
@@ -81,11 +91,13 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
             ballposX += ballXdir;
             ballposY += ballYdir;
-            if(ballposX <= 0)
-                ballXdir =- ballXdir;
 
-            if ( ballposX >= 670)
-                ballXdir =- ballXdir;
+            if(ballposX <= 0 )
+                ballXdir = -ballXdir;
+
+            if ( ballposX >= 670 )
+                ballXdir = -ballXdir;
+
 
             if(ballposY <= 0)
                 ballYdir =- ballYdir;
@@ -169,4 +181,6 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private int playerX = 350;
     private int score = 0;
     private MapGenerator mapGenerator;
+    private boolean scoreSaved = false;
+
 }
