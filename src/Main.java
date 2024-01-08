@@ -65,15 +65,5 @@ public class Main extends JFrame {
         });
         timer.start();
     }
-
-    public void displayScoreHistory() {
-        ArrayList<Integer> scoreHistory = ScoreHistory.loadScoreHistory();
-        System.out.println("Score History:");
-        for (int i = 0; i < scoreHistory.size(); i++) {
-            System.out.println("Game " + (i + 1) + ": " + scoreHistory.get(i));
-        }
-    }
-
-
     Timer timer;
 }
